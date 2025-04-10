@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market - RoxeT</title>
+  <style>
+    :root {
+      --purple: #ab2bd6;
+      --purple-light: #c06df2;
+      --text-gradient: linear-gradient(90deg, rgb(171, 43, 214) -7%, rgba(176, 176, 176, 1) -6.4%, rgb(242, 249, 254) 52%);
+    }
+    body { margin: 0; background: #1e1c22; color: white; font-family: Arial, sans-serif; }
+    ::selection { background: #8000ff; color: white; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: rgba(0, 0, 0, 0.7); position: sticky; top: 0; z-index: 1000; }
+    .top-bar img { height: 40px; cursor: pointer; }
+    .top-bar .left-text { font-weight: bold; margin-left: 10px; background: var(--text-gradient); -webkit-background-clip: text; color: transparent; }
+    .button-group button { background: var(--purple); color: white; border: 2px solid var(--purple-light); border-radius: 10px; padding: 8px 16px; margin-left: 10px; cursor: pointer; box-shadow: 0 0 4px white; transition: transform 0.2s; }
+    .button-group button:hover { transform: scale(1.05); }
+    .container { padding: 30px; }
+    .search-bar { margin-bottom: 20px; text-align: center; }
+    .search-bar input { padding: 10px; border-radius: 10px; border: 2px solid var(--purple-light); width: 300px; transition: all 0.3s ease; }
+    .search-bar input:focus { width: 350px; outline: none; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .card { background-color: #222; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); transition: transform 0.3s; position: relative; cursor: pointer; }
+    .card:hover { transform: scale(1.03); }
+    .card img { width: 100%; height: 150px; object-fit: cover; border-top-left-radius: 20px; border-top-right-radius: 20px; }
+    .card-body { padding: 15px; text-align: center; }
+    .card-body h3 { margin: 10px 0 5px; }
+    .card-body p { margin: 5px 0; color: #ccc; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div style="display: flex; align-items: center;">
+      <img src="LOGO_IMAGE_URL_HERE" onclick="goHome()">
+      <div class="left-text">RoxeT</div>
+    </div>
+    <div class="button-group">
+      <button onclick="goHome()">Home</button>
+      <button onclick="window.location.href='scripts.html'">Scripts</button>
+      <button onclick="window.location.href='market.html'">Market</button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search items..." onkeyup="filterItems()">
+    </div>
+    <div class="grid" id="marketGrid"></div>
+  </div>
+  <script>
+    const marketItems = [
+      { title: "Premium Script Pack", img: "https://via.placeholder.com/300x150?text=Script+Pack", price: "5 LTC", url: "https://example.com/buy/scriptpack" },
+      { title: "VIP Tool Access", img: "https://via.placeholder.com/300x150?text=VIP+Tool", price: "3.5 LTC", url: "https://example.com/buy/viptool" },
+      { title: "Exclusive UI", img: "https://via.placeholder.com/300x150?text=UI", price: "2 LTC", url: "https://example.com/buy/ui" }
+    ];
+
+    function goHome() {
+      window.location.href = 'index.html';
+    }
+
+    function renderMarket(items) {
+      const grid = document.getElementById('marketGrid');
+      grid.innerHTML = '';
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.onclick = () => window.open(item.url, '_blank');
+        card.innerHTML = `
+          <img src="${item.img}" alt="Item Thumbnail">
+          <div class="card-body">
+            <h3>${item.title}</h3>
+            <p>${item.price}</p>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterItems() {
+      const val = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = marketItems.filter(i => i.title.toLowerCase().includes(val));
+      renderMarket(filtered);
+    }
+
+    renderMarket(marketItems);
+  </script>
+</body>
+</html>
